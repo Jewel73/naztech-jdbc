@@ -22,5 +22,10 @@ public class NaztechJdbcApplication {
 	public String getWelcomeMsg() {
 		return "Hello World";
 	}
+	
+	@GetMapping("/thanks")
+	public String getWelcomeMsg() {
+		return "Welcome you !";
+	}
 
 }
