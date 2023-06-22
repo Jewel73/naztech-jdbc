@@ -41,6 +41,7 @@ public class NaztechJdbcService {
 	 * @return List<Object>
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("unchecked")
 	public <T> List<T> executeStoreProcedure(String spName, T obj) throws Exception{
 
 		List<T> resultList = new ArrayList<>();
