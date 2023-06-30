@@ -2,25 +2,62 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'war'
 }
 
-apply plugin:'war'
 
 group = 'com.naztech'
-version = '0.0.1-SNAPSHOT'
+version '1.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
 }
 
-repositories {
-    mavenCentral()
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+
+afterEvaluate {project ->
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.web
+        }
+   }
+    repositories {
+        maven {
+            credentials {
+                username 'admin'
+                password 'admin'
+            }
+            name 'nexus-hosted-repo'
+            allowInsecureProtocol true  
+            url = 'http://localhost:8081/repository/nexus-hosted-repo/'
+        }
+    }
 }
+
+}
+
+
+
+repositories {
+
+    maven {
+    	allowInsecureProtocol true  
+        url 'http://localhost:8081/repository/nexus-group-repo/'
+        credentials {
+            username 'admin'
+            password 'admin'
+        }
+    }
+}
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    //implementation 'org.springframework.boot:spring-boot-starter-jdbc' // Add JDBC support
+   // implementation 'org.springframework.boot:spring-boot-starter-jdbc' // Add JDBC support
     implementation 'org.springframework.boot:spring-boot-configuration-processor' // For auto-configuration
     implementation 'org.apache.commons:commons-dbcp2:2.9.0' // Dependency for the connection pool (can be replaced with your preferred connection pool library)
 	implementation 'mysql:mysql-connector-java:8.0.26'
